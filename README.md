@@ -154,6 +154,10 @@ Frequently asked questions will be added here.
 
 **A5:** After calculating the speaker-specific error, those errors are weighted by all speakers. This is to avoid errors caused by speakers with fewer speeches being overwhelmed by speakers talking more. Empirically, we found some algorithms can get a trick result by assigning all segments to a single speaker if the speaker dominates the dialog. This type of speaker error is also fully discussed in [JER](ttps://github.com/nryant/dscore).
 
+
+**Q6: Where can I find the datasets mentioned in the paper？**
+**A6:** We list dataset in this [URL](https://github.com/liutaocode/AwesomeDiarizationDataset) and provide data and URL links to find the mentioned datasets.
+
 > If you have any other questions, feel free to propose an issue or send us [email](mailto:liutaw@sjtu.edu.cn).
 
 
