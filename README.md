@@ -115,7 +115,7 @@ python score.py -r cases/case2/ref.rttm -s cases/case2/sys2.rttm
 | sys1   | 52.78 | 26.12| 33.33  | **30** |
 | sys2   | 63.89 | 36.89 | 33.33  | **31.25** |
 
-In this case, sys2 causes more duration errors. Although SER remaining the same, JER and BER deteriorate.
+In this case, sys2 causes more duration errors. Although SER remaining the same, BER deteriorates.
 
 ### Test Case3: the sensitivity to segment-level errors
 
@@ -128,7 +128,7 @@ python score.py -r cases/case3/ref.rttm -s cases/case3/sys2.rttm
 | sys1   | 20.69 | 20.69 | 25  | **22.64** |
 | sys2   | 20.69 | 20.69| 50  | **29.27** |
 
-In this case, sys2 has more segment errors. Although DER and JER remaining the same, JER and BER deteriorate.
+In this case, sys2 has more segment errors. Although DER and JER remaining the same, BER deteriorates.
 
 ## Q&A
 
