@@ -101,7 +101,7 @@ python score.py -r cases/case1/ref.rttm -s cases/case1/sys2.rttm
 | sys1   | 26.83 | 18.33 | 33.33 | **23.66** |
 | sys2   | 26.83 | 33.33 | 33.33 | **33.33** |
 
-In this case, sys2 miss a speaker. Alough DER, SER remaining the same, BER deteriorates.
+In this case, sys2 miss a speaker. Although DER, SER remaining the same, BER deteriorates.
 
 ### Test Case2: the sensitivity to duration errors
 
@@ -115,7 +115,7 @@ python score.py -r cases/case2/ref.rttm -s cases/case2/sys2.rttm
 | sys1   | 52.78 | 26.12| 33.33  | **30** |
 | sys2   | 63.89 | 36.89 | 33.33  | **31.25** |
 
-In this case, sys2 causes more duration errors. Alough SER remaining the same, JER and BER deteriorate.
+In this case, sys2 causes more duration errors. Although SER remaining the same, BER deteriorates.
 
 ### Test Case3: the sensitivity to segment-level errors
 
@@ -128,7 +128,7 @@ python score.py -r cases/case3/ref.rttm -s cases/case3/sys2.rttm
 | sys1   | 20.69 | 20.69 | 25  | **22.64** |
 | sys2   | 20.69 | 20.69| 50  | **29.27** |
 
-In this case, sys2 has more segment errors. Alough DER and JER remaining the same, JER and BER deteriorate.
+In this case, sys2 has more segment errors. Although DER and JER remaining the same, BER deteriorates.
 
 ## Q&A
 
@@ -153,6 +153,11 @@ Frequently asked questions will be added here.
 **Q5: What is the meaning of speaker error?** 
 
 **A5:** After calculating the speaker-specific error, those errors are weighted by all speakers. This is to avoid errors caused by speakers with fewer speeches being overwhelmed by speakers talking more. Empirically, we found some algorithms can get a trick result by assigning all segments to a single speaker if the speaker dominates the dialog. This type of speaker error is also fully discussed in [JER](ttps://github.com/nryant/dscore).
+
+
+**Q6: Where can I find the datasets mentioned in the paper？**
+
+**A6:** We list dataset in this [URL](https://github.com/liutaocode/AwesomeDiarizationDataset) and provide data and URL links to find the mentioned datasets.
 
 > If you have any other questions, feel free to propose an issue or send us [email](mailto:liutaw@sjtu.edu.cn).
 
