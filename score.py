@@ -255,7 +255,7 @@ def get_dynamic_iou(single_ref_segs, single_hyp_segs, lb=0.5, collar=0.5):
         single_ref_segs: a list with item (start, end) of type (float, float)
         single_hyp_segs: a list with item (start, end) of type (float, float)
         lb: lower bound of IoU, the default is 0.5
-        collar: collar is used here to adjust the border flexibility for segment-level errors. We follow DER and the default value is 0.25*2
+        collar: collar is used here to adjust the border flexibility for segment-level errors. We follow DER and the default value is 0.25*2 (Two means: before and after the boundary)
     Returns:
         IoU: IoU value, also called jaccard index
         segments_a_total: total length of segment a
@@ -264,7 +264,7 @@ def get_dynamic_iou(single_ref_segs, single_hyp_segs, lb=0.5, collar=0.5):
         union: the denominator of IoU
     """
     total_duration = sum([end-start for start, end in single_ref_segs])
-    return max((total_duration-2*collar*len(single_ref_segs))/(total_duration+2*collar*len(single_ref_segs)),lb)
+    return max((total_duration-2*collar*len(single_ref_segs))/(total_duration+2*collar*len(single_ref_segs)),lb) # multiplying by two means segment start and end
 
 
 def get_fa_ms(ref_segments, hyp_segments, precison = 100):
@@ -293,7 +293,6 @@ def get_fa_ms(ref_segments, hyp_segments, precison = 100):
     for start, end in hyp_segments:
         hyp_vector[int(round(start*precison)):int(round(end*precison))] = True
     
-
     fa_duration_vector = ~ ref_vector & hyp_vector
     ms_duration_vector = ref_vector & ~ hyp_vector
     intersection_vector = ref_vector & hyp_vector
@@ -311,7 +310,6 @@ def get_fa_ms(ref_segments, hyp_segments, precison = 100):
 def harmonic_mean(value1,value2, eps = 1e-6 ):
     return 2 / (1/(value1+eps) + 1/(value2+eps)) - eps
 
-
 def main():
     parser = ArgumentParser(
         description='SD diarization from RTTM files.', add_help=True,
@@ -328,9 +326,9 @@ def main():
     hyp_total_seg_num = len(open(hyp_rttm_file).readlines())
 
     rttm_dict = read_rttm_files(ref_rttm_file, hyp_rttm_file)
-    duation_vis_data = open(args.detailed_result,"w")
+    detailed_result_file = open(args.detailed_result,"w") # detailed result for each segment
 
-    bder_dict = dict() # meta information dict
+    bder_dict = dict() # meta information dict (record all information for details)
 
     for filename in rttm_dict.keys():
         
@@ -429,7 +427,7 @@ def main():
                 bder_dict[filename]['jer']['ref'][ref_name]['ref_duration'] += end-start
                 bder_dict[filename]['jer']['ref'][ref_name]['union_duration'] += end-start
                 
-                duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'optimalmapping', "ref"))
+                detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'optimalmapping', "ref"))
 
                 
             bder_dict[filename]['optimal_mapping']['r_ms_id'].add(ref_name)
@@ -467,7 +465,7 @@ def main():
                 bder_dict[filename]['jer']['hyp'][hyp_name]['ref_duration'] += end-start
                 bder_dict[filename]['jer']['hyp'][hyp_name]['union_duration'] += end-start
                 
-                duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, hyp_name, 'optimalmapping', "hyp"))
+                detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, hyp_name, 'optimalmapping', "hyp"))
                 
             bder_dict[filename]['optimal_mapping']['h_ms_id'].add(hyp_name)
         
@@ -540,7 +538,7 @@ def main():
                         bder_dict[filename]['ser']['ref'][ref_name]['ms_reason'].append('low_iou')
                         bder_dict[filename]['ser']['ref'][ref_name]['iou_threshold'].append(['%0.3f(%0.3f)'%(iou,iou_adapt)])
                         
-                        duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'N_%d_%0.2f'%(p,iou_adapt), "ref"))
+                        detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'N_%d_%0.2f'%(p,iou_adapt), "ref"))
                         
                         
                     for start, end in single_hyp_segs:
@@ -549,14 +547,14 @@ def main():
                         bder_dict[filename]['ser']['hyp'][hyp_name]['ms_reason'].append('low_iou')
                         bder_dict[filename]['ser']['hyp'][hyp_name]['iou_threshold'].append(['%0.3f(%0.3f)'%(iou,iou_adapt)])
                         
-                        duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'N_%d_%0.2f'%(p,iou_adapt), "hyp"))
+                        detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'N_%d_%0.2f'%(p,iou_adapt), "hyp"))
 
                 else:
                     # save IoU matched result
                     for start, end in single_ref_segs:
-                        duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'Y_%d_%0.2f'%(p,iou_adapt), "ref"))
+                        detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'Y_%d_%0.2f'%(p,iou_adapt), "ref"))
                     for start, end in single_hyp_segs:
-                        duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'Y_%d_%0.2f'%(p,iou_adapt), "hyp"))
+                        detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'Y_%d_%0.2f'%(p,iou_adapt), "hyp"))
 
             # for isolated nodes 
             unmatched_segs_ms_ref_set = total_ref_seg_id_set - total_single_ref_seg_id_set
@@ -574,7 +572,7 @@ def main():
                 bder_dict[filename]['ser']['ref'][ref_name]['ms_reason'].append('isolated_node')
                 bder_dict[filename]['ser']['ref'][ref_name]['iou_threshold'].append(['na'])
                 
-                duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'alone', "ref"))
+                detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, ref_name, 'alone', "ref"))
 
             for seg_id in unmatched_segs_ms_hypo_set:
                 hyp_name = index_hyp[hyp_id]
@@ -584,19 +582,20 @@ def main():
                 bder_dict[filename]['ser']['hyp'][hyp_name]['ms_reason'].append('isolated_node')
                 bder_dict[filename]['ser']['hyp'][hyp_name]['iou_threshold'].append(['na'])
                 
-                duation_vis_data.write("%s %f %f %s %s %s\n"%(filename, start, end, hyp_name, 'alone', "hyp"))
+                detailed_result_file.write("%s %f %f %s %s %s\n"%(filename, start, end, hyp_name, 'alone', "hyp"))
 
 
         unmatched = unmatched_segs_missing_ref + unmatched_segs_missing_hypo + unmatched_segs_iou + optimal_matching_failed_seg_num
 
-    duation_vis_data.close()
+    detailed_result_file.close()
 
-    all_spk_jer, all_spk_ber = [], []    
+    all_spk_jer, all_spk_ber = [], []   # jaccard error rate(jer) and balanced error rate(ber)
     ser_error_total, total_fa_time, total_ref_time, total_fa_seg_num, total_ref_seg_num = 0, 0, 0, 0, 0
     
     for filename in bder_dict.keys():
 
-        spk_ser_dict = dict()
+        spk_ser_dict, spk_der_dict = dict(), dict() # segment error rate(ser) and duration error rate(der)
+        spk_der = []
         
         for spk_name in bder_dict[filename]['ser']['ref'].keys():
             ms_num = bder_dict[filename]['ser']['ref'][spk_name]['ms_num']
@@ -611,9 +610,6 @@ def main():
             if len(ms_reason) > 0 and ms_reason[0] == 'optimalmapping':
                 total_fa_seg_num += len(ms_case)
                     
-        
-        spk_der = []
-        spk_der_dict = dict()
         for spk_name in bder_dict[filename]['jer']['ref'].keys():
             fa = bder_dict[filename]['jer']['ref'][spk_name]['fa_duration']
             ms = bder_dict[filename]['jer']['ref'][spk_name]['ms_duration']
@@ -632,20 +628,19 @@ def main():
             
         assert spk_ser_dict.keys() == spk_der_dict.keys()
         
-        
         for spk_name in spk_ser_dict.keys():
             ser = spk_ser_dict[spk_name]
-            jer = spk_der_dict[spk_name]
+            der = spk_der_dict[spk_name]
             
-            single_spk_ber = harmonic_mean(ser,jer)
+            single_spk_ber = harmonic_mean(ser,der)
             all_spk_ber.append(single_spk_ber)
         
-    jer = sum(all_spk_jer)/len(all_spk_jer)
+    jer = sum(all_spk_jer) / len(all_spk_jer)
     ser = ser_error_total / total_ref_seg_num
 
-    ref_spk_ber = sum(all_spk_ber)/len(all_spk_ber)
-    fa_duraion = total_fa_time/total_ref_time
-    fa_segnum = total_fa_seg_num/total_ref_seg_num
+    ref_spk_ber = sum(all_spk_ber) / len(all_spk_ber)
+    fa_duraion = total_fa_time / total_ref_time
+    fa_segnum = total_fa_seg_num / total_ref_seg_num
     fa_mean = harmonic_mean(fa_duraion, fa_segnum)
     ber = ref_spk_ber + fa_mean
 
