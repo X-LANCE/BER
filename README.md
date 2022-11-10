@@ -183,4 +183,5 @@ Frequently asked questions will be added here.
 * https://pyannote.github.io/pyannote-audio/ (Some experiments are conducted on this repo: ``094717b6`` and its hugging face ``3602c22f``)
 * https://github.com/nryant/dscore (DER and JER inspire us.)
 * https://github.com/nttcslab-sp/EEND-vector-clustering (EEND results are from this repo, and thanks for the author's quick response)
-* https://github.com/X-LANCE/MSDWILD (Multi-modal results are from this repo.)
+* https://github.com/BUTSpeechFIT/VBx (VBx results)
+* https://github.com/X-LANCE/MSDWILD (Multi-modal results are from this repo)
