@@ -25,6 +25,7 @@ Specifically, this repo provides the following functions:
 - ``SER`` is a **segment-level** error rate for speaker diarization via connected sub-graphs and adaptive IoU threshold. Compared with [CDER](https://github.com/SpeechClub/CDER_Metric), SER can handle arbitrary segmentation.
 - ``BER`` is a **balanced** error rate for speaker diarization. It can evaluate the speaker diarization algorithm from speaker-weighted, duration, and segment error. ``BER`` is based on ``SER`` in segment error part.
 
+``Updates``： You can compare all metrics in one script using [URL](https://github.com/liutaocode/DiarizationMetricInOne). 
 
 ## Formulation
 
