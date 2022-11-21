@@ -46,6 +46,10 @@ python score.py -r ref_rttm -s sys_rttm -d detailed_result.txt
 
 **Note**: [RTTM](https://raw.githubusercontent.com/nryant/dscore) is Rich Transcription Time Marked format commonly used in speaker diarization labels. Before using this metric, please merge the result of all recordings into one single rttm file.
 
+The shape of ``RTTM`` for each line is like:
+```
+SPEAKER <filename> <channel_id> <start_time> <duration> <NA> <NA> <speaker_name> <NA> <NA>
+```
 
 ## Examples
 ```
