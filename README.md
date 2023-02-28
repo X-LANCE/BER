@@ -161,7 +161,7 @@ Frequently asked questions will be added here.
 
 **A6:** We list dataset in this [URL](https://github.com/liutaocode/AwesomeDiarizationDataset) and provide data and URL links to find the mentioned datasets.
 
-> If you have any other questions, feel free to propose an issue or send us [email](mailto:liutaw@sjtu.edu.cn).
+> If you have any other questions, feel free to propose an issue.
 
 
 ## Reference
