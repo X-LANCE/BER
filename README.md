@@ -159,7 +159,7 @@ Frequently asked questions will be added here.
 
 **Q6: Where can I find the datasets mentioned in the paper？**
 
-**A6:** We list dataset in this [URL](https://github.com/liutaocode/AwesomeDiarizationDataset) and provide data and URL links to find the mentioned datasets.
+**A6:** This [URL](https://github.com/liutaocode/AwesomeDiarizationDataset) provides data and URL links to find the mentioned datasets.
 
 > If you have any other questions, feel free to propose an issue.
 
