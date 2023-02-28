@@ -27,9 +27,6 @@ Specifically, this repo provides the following functions:
 
 ``Updates``： You can compare all metrics in one script using [URL](https://github.com/liutaocode/DiarizationMetricInOne). 
 
-## Formulation
-
-The detailed formulation is in [paper](https://arxiv.org/abs/2211.04304).
 
 ## Usage
 
@@ -93,7 +90,7 @@ segment_type has the following types:
 * ``alone``: alone nodes which is not included in connected subgraph.
 
 ## Case study
-Apart from analysing real datasets in [paper](https://arxiv.org/abs/2211.04304), we also provide some simulated cases for better understanding this metric. All results is in percentage.
+We provide some simulated cases for better understanding this metric. All results is in percentage.
 ### Test Case1: the sensitivity to speaker errors
 
 ```
@@ -166,19 +163,6 @@ Frequently asked questions will be added here.
 
 > If you have any other questions, feel free to propose an issue or send us [email](mailto:liutaw@sjtu.edu.cn).
 
-
-## Citation
-
-```
-@misc{liu2022ber,
-      title={BER: Balanced Error Rate For Speaker Diarization}, 
-      author={Tao Liu and Kai Yu},
-      year={2022},
-      eprint={2211.04304},
-      archivePrefix={arXiv},
-      primaryClass={cs.SD}
-}
-```
 
 ## Reference
 
